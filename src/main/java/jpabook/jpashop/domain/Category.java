@@ -25,6 +25,9 @@ public class Category {
 	@Id @GeneratedValue
 	private Long categoryIdx;
 
+	/**
+	 * 부모 카테고리
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "p_category_idx")
 	private Category pCategory;
@@ -33,4 +36,15 @@ public class Category {
 	 * 카테고리 명
 	 */
 	private String categoryName;
+
+	/*
+	@OneToMany(mappedBy = "parent")
+    private List<Category> child = new ArrayList<>();
+
+    //==연관관계 메서드==//
+    public void addChildCategory(Category child) {
+        this.child.add(child);
+        child.setParent(this);
+    }
+    */
 }

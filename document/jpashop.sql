@@ -9,9 +9,9 @@ DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS order_goods;
 DROP TABLE IF EXISTS goods;
-DROP TABLE IF EXISTS order_delivery;
 DROP TABLE IF EXISTS member_order;
 DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS order_delivery;
 
 
 
@@ -72,8 +72,8 @@ CREATE TABLE member
 (
 	member_idx int NOT NULL AUTO_INCREMENT COMMENT '회원 고유번호',
 	member_name varchar(200) NOT NULL COMMENT '회원 이름',
-	address varchar(200) NOT NULL COMMENT '주소 ',
-	address_detail varchar(200) COMMENT '주소 상세',
+	address1 varchar(200) NOT NULL COMMENT '주소 1',
+	address2 varchar(200) COMMENT '주소 2',
 	zipcode varchar(10) NOT NULL COMMENT '우편번호',
 	PRIMARY KEY (member_idx)
 ) COMMENT = '회원';
@@ -84,6 +84,9 @@ CREATE TABLE member_order
 (
 	mo_idx int NOT NULL AUTO_INCREMENT COMMENT '회원 주문 고유번호',
 	member_idx int NOT NULL COMMENT '회원 고유번호',
+	od_idx int NOT NULL COMMENT '주문 배송 고유번호',
+	order_date datetime NOT NULL COMMENT '주문일시',
+	order_status varchar(10) NOT NULL COMMENT '주문 상태',
 	PRIMARY KEY (mo_idx)
 ) COMMENT = '회원 주문';
 
@@ -100,12 +103,12 @@ CREATE TABLE movie
 -- 주문 배송
 CREATE TABLE order_delivery
 (
-	mo_idx int NOT NULL COMMENT '회원 주문 고유번호',
-	status varchar(10) NOT NULL COMMENT '상태',
-	address varchar(200) NOT NULL COMMENT '주소 ',
-	address_detail varchar(200) NOT NULL COMMENT '주소 상세',
+	od_idx int NOT NULL AUTO_INCREMENT COMMENT '주문 배송 고유번호',
+	delivery_status varchar(10) NOT NULL COMMENT '배송 상태',
+	address1 varchar(200) NOT NULL COMMENT '주소 1',
+	address2 varchar(200) NOT NULL COMMENT '주소 2',
 	zipcode varchar(10) NOT NULL COMMENT '우편번호',
-	PRIMARY KEY (mo_idx)
+	PRIMARY KEY (od_idx)
 ) COMMENT = '주문 배송';
 
 
@@ -190,17 +193,17 @@ ALTER TABLE member_order
 ;
 
 
-ALTER TABLE order_delivery
-	ADD CONSTRAINT fk_od_mo1 FOREIGN KEY (mo_idx)
+ALTER TABLE order_goods
+	ADD CONSTRAINT fk_og_mo1 FOREIGN KEY (mo_idx)
 	REFERENCES member_order (mo_idx)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
 ;
 
 
-ALTER TABLE order_goods
-	ADD CONSTRAINT fk_og_mo1 FOREIGN KEY (mo_idx)
-	REFERENCES member_order (mo_idx)
+ALTER TABLE member_order
+	ADD CONSTRAINT fk_mo_od1 FOREIGN KEY (od_idx)
+	REFERENCES order_delivery (od_idx)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
 ;

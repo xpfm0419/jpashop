@@ -38,4 +38,10 @@ public class OrderDelivery {
 	 */
 	@Embedded
 	private Address address;
+
+	/*
+	@JsonIgnore
+    @OneToOne(mappedBy = "delivery", fetch = LAZY)
+    private Order order;
+    */
 }
