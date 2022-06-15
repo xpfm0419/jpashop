@@ -61,17 +61,36 @@ public class OrderGoods {
 	 */
 	private LocalDateTime updDt;
 
-	/*
-	//==생성 메서드==//
-    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item);
-        orderItem.setOrderPrice(orderPrice);
-        orderItem.setCount(count);
+	// =================================== 양방향 연관관계 ===================================
 
-        item.removeStock(count);
-        return orderItem;
-    }
+	// =================================== 연관관계 메소드 ===================================
+
+	// =================================== 생성 메소드 ===================================
+
+	/**
+	 * 주문 상품 생성
+	 * @param goods 상품
+	 * @param orderPrice 주문 가격
+	 * @param orderCnt 주문 수량
+	 * @return 주문 상품
+	 */
+	public static OrderGoods createOrderGoods(Goods goods, int orderPrice, int orderCnt) {
+		OrderGoods orderGoods = new OrderGoods();
+		orderGoods.setGoods(goods);
+		orderGoods.setOrderPrice(orderPrice);
+		orderGoods.setOrderCnt(orderCnt);
+
+		//goods.removeStock(orderCnt);
+
+		return orderGoods;
+	}
+
+	// =================================== 비즈니스 로직 ===================================
+
+
+
+
+	/*
 
     //==비즈니스 로직==//
     public void cancel() {

@@ -1,9 +1,13 @@
 package jpabook.jpashop.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import jpabook.jpashop.domain.embedded.Address;
 import lombok.Getter;
@@ -35,9 +39,17 @@ public class Member {
 	@Embedded
 	private Address address;
 
-	/*
-	@JsonIgnore
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
-    */
+	// =================================== 양방향 연관관계 ===================================
+
+	//@JsonIgnore
+	@OneToMany(mappedBy = "member")
+	private List<MemberOrder> memberOrderList = new ArrayList<>();
+
+
+	// =================================== 연관관계 메소드 ===================================
+
+	// =================================== 생성 메소드 ===================================
+
+	// =================================== 비즈니스 로직 ===================================
+
 }

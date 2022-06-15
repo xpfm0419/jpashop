@@ -4,8 +4,10 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import jpabook.jpashop.domain.embedded.Address;
 import jpabook.jpashop.domain.enumeration.DeliveryStatus;
@@ -39,9 +41,17 @@ public class OrderDelivery {
 	@Embedded
 	private Address address;
 
-	/*
-	@JsonIgnore
-    @OneToOne(mappedBy = "delivery", fetch = LAZY)
-    private Order order;
-    */
+	// =================================== 양방향 연관관계 ===================================
+
+	/**
+	 * 회원 주문
+	 */
+	@OneToOne(mappedBy = "orderDelivery", fetch = FetchType.LAZY)
+	private MemberOrder memberOrder;
+
+	// =================================== 연관관계 메소드 ===================================
+
+	// =================================== 생성 메소드 ===================================
+
+	// =================================== 비즈니스 로직 ===================================
 }

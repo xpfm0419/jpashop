@@ -1,7 +1,10 @@
 package jpabook.jpashop.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import jpabook.jpashop.domain.enumeration.OrderStatus;
 import lombok.Getter;
@@ -40,7 +45,7 @@ public class MemberOrder {
 	/**
 	 * 주문 배송
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "od_idx")
 	private OrderDelivery orderDelivery;
 
@@ -53,42 +58,73 @@ public class MemberOrder {
 	 * 주문 상태
 	 */
 	@Enumerated(EnumType.STRING)
-	private OrderStatus orderStats;
+	private OrderStatus orderStatus;
+
+	// =================================== 양방향 연관관계 ===================================
+
+	/**
+	 * 주문 상품 목록
+	 */
+	@OneToMany(mappedBy = "memberOrder", cascade = CascadeType.ALL)
+	private List<OrderGoods> orderGoodsList = new ArrayList<>();
+
+	// =================================== 연관관계 메소드 ===================================
+
+	/**
+	 * 회원 셋팅
+	 * @param member 회원
+	 */
+	public void setMember(Member member) {
+		this.member = member;
+		member.getMemberOrderList().add(this);
+	}
+
+	/**
+	 * 주문 배송 셋팅
+	 * @param orderDelivery
+	 */
+	public void setOrderDelivery(OrderDelivery orderDelivery) {
+		this.orderDelivery = orderDelivery;
+		orderDelivery.setMemberOrder(this);
+	}
+
+	/**
+	 * 주문 상품 추가
+	 * @param orderGoods 주문 상품
+	 */
+	public void addOrderGoods(OrderGoods orderGoods) {
+		this.orderGoodsList.add(orderGoods);
+		orderGoods.setMemberOrder(this);
+	}
+
+	// =================================== 생성 메소드 ===================================
+
+	/**
+	 * 회원 주문 생성
+	 * @param member 회원
+	 * @param orderDelivery 주문 배송
+	 * @param orderGoodsList 주문 상품
+	 * @return 회원 주문
+	 */
+	public static MemberOrder createMemberOrder(Member member, OrderDelivery orderDelivery, OrderGoods... orderGoodsList) {
+		MemberOrder memberOrder = new MemberOrder();
+		memberOrder.setMember(member);
+		memberOrder.setOrderDelivery(orderDelivery);
+
+		for (OrderGoods orderGoods : orderGoodsList) {
+			memberOrder.addOrderGoods(orderGoods);
+		}
+
+		memberOrder.setOrderDate(LocalDateTime.now());
+		memberOrder.setOrderStatus(OrderStatus.ORDER);
+
+		return memberOrder;
+	}
+
+	// =================================== 비즈니스 로직 ===================================
+
 
 	/*
-	@JsonIgnore
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
-
-	//==연관관계 메서드==//
-    public void setMember(Member member) {
-        this.member = member;
-        member.getOrders().add(this);
-    }
-
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
-    }
-
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
-        delivery.setOrder(this);
-    }
-
-    //==생성 메서드==//
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
-        Order order = new Order();
-        order.setMember(member);
-        order.setDelivery(delivery);
-        for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
-        }
-        order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(LocalDateTime.now());
-        return order;
-    }
-
     //==비즈니스 로직==//
      // 주문 취소
     public void cancel() {
