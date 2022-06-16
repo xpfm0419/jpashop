@@ -3,6 +3,7 @@ package jpabook.jpashop.domain;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -24,7 +25,7 @@ public abstract class Goods {
 	/**
 	 * 상품 고유번호
 	 */
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long goodsIdx;
 
 	/**
