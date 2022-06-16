@@ -1,15 +1,10 @@
 package jpabook.jpashop.domain;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-
+import jpabook.jpashop.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 /**
  * 상품
@@ -50,6 +45,26 @@ public abstract class Goods {
 	// =================================== 생성 메소드 ===================================
 
 	// =================================== 비즈니스 로직 ===================================
+
+	/**
+	 * 재고 수량 증가
+	 * @param quantity 증가 수량
+	 */
+	public void addStockCnt(int quantity) {
+		this.stockCnt += quantity;
+	}
+
+	/**
+	 * 재고 수량 차감
+	 * @param quantity 차감 수량
+	 */
+	public void removeStockCnt(int quantity) {
+		int remainStockCnt = this.stockCnt - quantity;
+		if(remainStockCnt < 0) {
+			throw new NotEnoughStockException("need more stock");
+		}
+		this.stockCnt = remainStockCnt;
+	}
 
 
 
