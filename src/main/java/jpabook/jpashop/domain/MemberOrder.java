@@ -1,25 +1,14 @@
 package jpabook.jpashop.domain;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
+import jpabook.jpashop.domain.enumeration.DeliveryStatus;
 import jpabook.jpashop.domain.enumeration.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 회원 주문
@@ -125,28 +114,29 @@ public class MemberOrder {
 	// =================================== 비즈니스 로직 ===================================
 
 
-	/*
-    //==비즈니스 로직==//
-     // 주문 취소
+	/**
+	 * 주문 취소
+	 */
     public void cancel() {
-        if (delivery.getStatus() == DeliveryStatus.COMP) {
+        if (orderDelivery.getDeliveryStatus() == DeliveryStatus.COMP) {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }
 
-        this.setStatus(OrderStatus.CANCEL);
-        for (OrderItem orderItem : orderItems) {
-            orderItem.cancel();
+        this.setOrderStatus(OrderStatus.CANCEL);
+        for (OrderGoods orderGoods : orderGoodsList) {
+			orderGoods.cancel();
         }
     }
 
-    //==조회 로직==//
-     // 전체 주문 가격 조회
+	/**
+	 * 전체 주문 가격 조회
+	 * @return 주문 가격
+	 */
     public int getTotalPrice() {
         int totalPrice = 0;
-        for (OrderItem orderItem : orderItems) {
-            totalPrice += orderItem.getTotalPrice();
+        for (OrderGoods orderGoods : orderGoodsList) {
+            totalPrice += orderGoods.getTotalPrice();
         }
         return totalPrice;
     }
-    */
 }

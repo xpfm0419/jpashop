@@ -1,17 +1,10 @@
 package jpabook.jpashop.domain;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * 주문 상품
@@ -81,28 +74,25 @@ public class OrderGoods {
 		orderGoods.setOrderPrice(orderPrice);
 		orderGoods.setOrderCnt(orderCnt);
 
-		//goods.removeStock(orderCnt);
+		goods.removeStockCnt(orderCnt);
 
 		return orderGoods;
 	}
 
 	// =================================== 비즈니스 로직 ===================================
 
-
-
-
-	/*
-
-    //==비즈니스 로직==//
+	/**
+	 * 주문 취소
+	 */
     public void cancel() {
-        getItem().addStock(count);
+        getGoods().addStockCnt(orderCnt);
     }
 
-    //==조회 로직==//
-
-     // 주문상품 전체 가격 조회
+	/**
+	 * 주문상품 전체 가격 조회
+	 * @return 주문상품 전체 가격
+	 */
     public int getTotalPrice() {
-        return getOrderPrice() * getCount();
+        return getOrderPrice() * getOrderCnt();
     }
-    */
 }

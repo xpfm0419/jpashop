@@ -11,7 +11,7 @@ public enum DeliveryStatus {
 	 */
 	READY,
 	/**
-	 * 배송 중
+	 * 배송 완료
 	 */
 	COMP
 }
