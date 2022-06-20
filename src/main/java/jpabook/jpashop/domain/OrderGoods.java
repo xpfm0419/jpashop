@@ -1,6 +1,8 @@
 package jpabook.jpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderGoods {
 
 	/**
@@ -64,14 +67,13 @@ public class OrderGoods {
 	/**
 	 * 주문 상품 생성
 	 * @param goods 상품
-	 * @param orderPrice 주문 가격
 	 * @param orderCnt 주문 수량
 	 * @return 주문 상품
 	 */
-	public static OrderGoods createOrderGoods(Goods goods, int orderPrice, int orderCnt) {
+	public static OrderGoods createOrderGoods(Goods goods, int orderCnt) {
 		OrderGoods orderGoods = new OrderGoods();
 		orderGoods.setGoods(goods);
-		orderGoods.setOrderPrice(orderPrice);
+		orderGoods.setOrderPrice(goods.getGoodsPrice());
 		orderGoods.setOrderCnt(orderCnt);
 
 		goods.removeStockCnt(orderCnt);

@@ -1,13 +1,12 @@
 package jpabook.jpashop.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 회원 Service
@@ -29,8 +28,8 @@ public class MemberService {
 	 *
 	 * @return 회원 전체 목록
 	 */
-	public List<Member> selectAllMemberList() {
-		return memberRepository.selectAllMemberList();
+	public List<Member> selectMemberList() {
+		return memberRepository.selectMemberList();
 	}
 
 	/**

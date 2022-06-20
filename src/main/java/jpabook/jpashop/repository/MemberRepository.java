@@ -1,13 +1,11 @@
 package jpabook.jpashop.repository;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
-import org.springframework.stereotype.Repository;
-
 import jpabook.jpashop.domain.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 /**
  * 회원 Repository
@@ -24,11 +22,11 @@ public class MemberRepository {
 	private final EntityManager em;
 
 	/**
-	 * 회원 전체 목록 조회
+	 * 회원 목록 조회
 	 *
-	 * @return 회원 전체 목록
+	 * @return 회원 목록
 	 */
-	public List<Member> selectAllMemberList() {
+	public List<Member> selectMemberList() {
 		return em.createQuery("select m from Member m", Member.class)
 				.getResultList();
 	}
