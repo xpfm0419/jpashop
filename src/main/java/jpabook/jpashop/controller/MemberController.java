@@ -1,16 +1,17 @@
 package jpabook.jpashop.controller;
 
-import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.domain.embedded.Address;
-import jpabook.jpashop.service.MemberService;
-import lombok.RequiredArgsConstructor;
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
+import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.embedded.Address;
+import jpabook.jpashop.service.MemberService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 회원 Controller
