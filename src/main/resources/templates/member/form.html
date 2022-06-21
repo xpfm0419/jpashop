@@ -11,22 +11,22 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <form role="form" action="/members/new" th:object="${memberForm}" method="post">
+    <form role="form" action="/member/insert" th:object="${memberForm}" method="post">
         <div class="form-group">
             <label th:for="name">이름</label>
 
-            <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요"
-                   th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect date</p>
+            <input type="text" th:field="*{memberName}" class="form-control" placeholder="이름을 입력하세요"
+                   th:class="${#fields.hasErrors('memberName')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}">Incorrect date</p>
 
         </div>
         <div class="form-group">
-            <label th:for="city">도시</label>
-            <input type="text" th:field="*{city}" class="form-control" placeholder="도시를 입력하세요">
+            <label th:for="address1">기본 주소</label>
+            <input type="text" th:field="*{address1}" class="form-control" placeholder="기본주소를 입력하세요">
         </div>
         <div class="form-group">
-            <label th:for="street">거리</label>
-            <input type="text" th:field="*{street}" class="form-control" placeholder="거리를 입력하세요">
+            <label th:for="address2">상세 주소</label>
+            <input type="text" th:field="*{address2}" class="form-control" placeholder="상세주소를 입력하세요">
         </div>
         <div class="form-group">
             <label th:for="zipcode">우편번호</label>
